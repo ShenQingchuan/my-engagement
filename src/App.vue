@@ -96,7 +96,6 @@ onUnmounted(() => {
   z-index: 999;
 }
 .story-container {
-  overflow-x: hidden;
   background: linear-gradient(180deg, #a8d5ba 0%, #8cc8a8 30%, #7bc4a6 100%);
 }
 </style>

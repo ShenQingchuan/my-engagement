@@ -260,11 +260,10 @@ onUnmounted(() => {
 /* ── section ─────────────────────────────────────────────────────────────── */
 .phone-section {
   position: relative;
-  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: clip;
+  padding: 80px 0;
 }
 .phone-section__inner {
   position: relative;

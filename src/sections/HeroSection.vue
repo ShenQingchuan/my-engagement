@@ -79,7 +79,6 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: clip;   /* clip 不创建 scroll context，比 hidden 更轻量 */
 }
 .hero-section::after {
   content: '';
