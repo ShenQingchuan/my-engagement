@@ -4,4 +4,19 @@ html, body {
   box-sizing: border-box;
   overscroll-behavior: none;
   background: black;
+  /* 消除 iOS 点击高亮，减少合成层切换开销 */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 所有 section 的装饰图片预提升到独立合成层，避免滚动时触发重绘 */
+.hero-bg,
+.hero-deco--rock,
+.suitcase-deco,
+.toybox-deco,
+.deco--wallplant,
+.deco--bread,
+.deco--juice,
+.couple-img {
+  will-change: transform;
+  transform: translateZ(0);
 }

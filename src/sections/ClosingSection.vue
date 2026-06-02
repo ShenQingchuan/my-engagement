@@ -123,7 +123,7 @@ onUnmounted(() => {
           </p>
 
           <div ref="el => { if (el) lineRefs[6] = el as HTMLElement }" class="letter__sign">
-            <span class="letter__sign-text">小兔头</span>
+            <span class="letter__sign-text">咖妃</span>
             <span class="letter__sign-sub">爱你一生一世</span>
           </div>
 

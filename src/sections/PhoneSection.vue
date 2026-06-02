@@ -563,7 +563,9 @@ onUnmounted(() => {
 /* ── suitcase ────────────────────────────────────────────────────────────── */
 .suitcase-deco {
   position: absolute;
-  bottom: -5vh; left: -8vw;
+  bottom: 0vh;
+  right: -9vw;
+  transform: rotateY(180deg);
   width: 40vw; max-width: 220px;
   z-index: 3;
   filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));

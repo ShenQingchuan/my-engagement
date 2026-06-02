@@ -15,9 +15,23 @@ type Phase = 'modal' | 'loading' | 'content'
 const phase = ref<Phase>('modal')
 const modalOpen = ref(true)
 
+// 城市图片预加载：loading 期间并发拉取，浏览器缓存后 carousel 展示时秒出
+const CITY_IMAGES = [
+  '/assets/城市/成都.png', '/assets/城市/深圳.png', '/assets/城市/广州.png',
+  '/assets/城市/长沙.png', '/assets/城市/大理.png', '/assets/城市/川西.png',
+  '/assets/城市/昆明.png', '/assets/城市/香港.png', '/assets/城市/上海.png',
+  '/assets/城市/东京.png', '/assets/城市/京都.png', '/assets/城市/大阪.png',
+  '/assets/城市/奈良.png', '/assets/城市/重庆.png', '/assets/城市/北海道.png',
+]
+
+function preloadImages(urls: string[]) {
+  urls.forEach(src => { const img = new Image(); img.src = src })
+}
+
 function handleStart() {
   modalOpen.value = false
   phase.value = 'loading'
+  preloadImages(CITY_IMAGES)
   setTimeout(() => { phase.value = 'content' }, 2000)
 }
 
