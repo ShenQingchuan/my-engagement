@@ -5,7 +5,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 // @ts-ignore
 import bgImg from '../animal-island-vue/assets/img/animalisland_1440_2560.JPG'
 
-const sectionRef = ref<HTMLElement>()
 const subtitleRef = ref<HTMLElement>()
 const scrollHintRef = ref<HTMLElement>()
 const rockRef = ref<HTMLElement>()
@@ -50,7 +49,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section ref="sectionRef" class="hero-section">
+  <section class="hero-section">
     <div class="hero-bg" :style="{ backgroundImage: `url(${bgImg})` }">
       <img ref="rockRef" src="/assets/插图/摇摇马.png" alt="摇摇马" class="hero-deco hero-deco--rock" />
     </div>
