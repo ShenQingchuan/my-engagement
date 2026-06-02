@@ -24,10 +24,25 @@ const currentIndex = ref(0)
 // ── swipe ──────────────────────────────────────────────────────────────────
 let touchStartX = 0
 let touchStartY = 0
+let swipeLocked: 'horizontal' | 'vertical' | null = null
 
 function onTouchStart(e: TouchEvent) {
   touchStartX = e.touches[0].clientX
   touchStartY = e.touches[0].clientY
+  swipeLocked = null
+}
+
+function onTouchMove(e: TouchEvent) {
+  if (!swipeLocked) {
+    const dx = Math.abs(e.touches[0].clientX - touchStartX)
+    const dy = Math.abs(e.touches[0].clientY - touchStartY)
+    if (dx > 8 || dy > 8) {
+      swipeLocked = dx > dy ? 'horizontal' : 'vertical'
+    }
+  }
+  if (swipeLocked === 'horizontal') {
+    e.preventDefault()
+  }
 }
 
 function onTouchEnd(e: TouchEvent) {
@@ -39,6 +54,20 @@ function onTouchEnd(e: TouchEvent) {
       ? Math.min(currentIndex.value + 1, slides.length - 1)
       : Math.max(currentIndex.value - 1, 0)
     if (next !== currentIndex.value) slideTo(next)
+  }
+}
+
+function bindTouchMove() {
+  const el = carouselRef.value?.querySelector('.carousel__viewport')
+  if (el) {
+    el.addEventListener('touchmove', onTouchMove as EventListener, { passive: false })
+  }
+}
+
+function unbindTouchMove() {
+  const el = carouselRef.value?.querySelector('.carousel__viewport')
+  if (el) {
+    el.removeEventListener('touchmove', onTouchMove as EventListener)
   }
 }
 
@@ -129,6 +158,7 @@ function onCardEnter(el: Element, done: () => void) {
 function startCarousel() {
   carouselVisible.value = true
   nextTick(() => {
+    bindTouchMove()
     gsap.to(phoneWrapRef.value!, { y: -150, opacity: 0, scale: 0.75, duration: 0.55, ease: 'power2.in' })
     gsap.to(hintRef.value!, { opacity: 0, duration: 0.35 })
     gsap.fromTo(carouselRef.value!,
@@ -175,6 +205,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  unbindTouchMove()
   if (tlInstance) tlInstance.kill()
   if (autoPlayTimer) clearInterval(autoPlayTimer)
 })
@@ -404,6 +435,7 @@ onUnmounted(() => {
   width: min(90vw, 440px);
   /* grid 单格叠放：过渡时新旧卡都在同一格，容器高度由内容撑开 */
   display: grid;
+  touch-action: pan-y;
 }
 .carousel__card {
   grid-area: 1 / 1;
