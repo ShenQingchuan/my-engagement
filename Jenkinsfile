@@ -81,8 +81,22 @@ pipeline {
                 script {
                     echo "Deploying container: ${env.DOCKER_CONTAINER_NAME}"
 
+                    // 按名字清理（正常情况）
                     sh "docker ps -q -f name=${env.DOCKER_CONTAINER_NAME} | xargs -r docker stop || true"
                     sh "docker ps -aq -f name=${env.DOCKER_CONTAINER_NAME} | xargs -r docker rm || true"
+
+                    // 兜底：强制释放端口，防止同端口的其他容器残留
+                    sh """
+                        HOST_PORT=\$(echo '${env.APP_PORT_MAPPING}' | cut -d: -f1)
+                        docker ps --format '{{.ID}} {{.Ports}}' \
+                            | grep "0\\.0\\.0\\.0:\${HOST_PORT}->" \
+                            | awk '{print \$1}' \
+                            | xargs -r docker stop || true
+                        docker ps -a --format '{{.ID}} {{.Ports}}' \
+                            | grep "0\\.0\\.0\\.0:\${HOST_PORT}->" \
+                            | awk '{print \$1}' \
+                            | xargs -r docker rm || true
+                    """
 
                     sh """
                         docker run -d \
