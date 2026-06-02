@@ -151,12 +151,11 @@ onUnmounted(() => {
 /* ── section ─────────────────────────────────────────────────────────────── */
 .closing-section {
   position: relative;
-  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: visible;
-  padding: 60px 20px 100px;
+  padding: 80px 20px 120px;
 }
 .closing-section__inner {
   width: 100%;

@@ -8,15 +8,7 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* 所有 section 的装饰图片预提升到独立合成层，避免滚动时触发重绘 */
-.hero-bg,
-.hero-deco--rock,
-.suitcase-deco,
-.toybox-deco,
-.deco--wallplant,
-.deco--bread,
-.deco--juice,
-.couple-img {
+/* 只给会动的 hero-bg 加合成层提升，静态装饰图不加（移动端 GPU 内存有限） */
+.hero-bg {
   will-change: transform;
-  transform: translateZ(0);
 }

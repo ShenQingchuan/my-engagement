@@ -41,14 +41,7 @@ onMounted(() => {
       clearProps: 'transform,opacity',
     }, '-=1')
 
-  const st = ScrollTrigger.create({
-    trigger: sectionRef.value,
-    start: 'top top',
-    end: 'bottom top',
-    scrub: 1,
-    animation: gsap.to('.hero-bg', { y: 120, scale: 1.08 }),
-  })
-  triggers.push(st)
+  // 视差改用 CSS，零 JS 开销，移动端更流畅
 })
 
 onUnmounted(() => {
@@ -86,7 +79,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: clip;   /* clip 不创建 scroll context，比 hidden 更轻量 */
 }
 .hero-section::after {
   content: '';
@@ -101,7 +94,7 @@ onUnmounted(() => {
 }
 .hero-bg {
   position: absolute;
-  inset: 0;
+  inset: -15% 0;          /* 预留溢出空间，滚出去不露白 */
   background-position: center top;
   background-size: cover;
   background-repeat: no-repeat;

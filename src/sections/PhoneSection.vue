@@ -150,17 +150,12 @@ onMounted(() => {
   })
   tlInstance = tl
 
-  tl.from(phoneWrapRef.value!, {
-    y: 250, rotationY: 40, rotationX: 18, rotationZ: -10,
-    opacity: 0, scale: 0.7, duration: 1.6, ease: 'back.out(1.4)',
-  })
+  // 手机直接显示，不做入场动画
+  // 装饰物直接出现
+  tl.from(hintRef.value!, { opacity: 0, duration: 0.5, ease: 'power2.out' }, 0)
+  tl.from(suitcaseRef.value!, { opacity: 0, duration: 0.5, ease: 'power2.out' }, 0)
 
-  tl.fromTo('.phone__app',
-    { scale: 0, opacity: 0 },
-    { scale: 1, opacity: 1, duration: 0.45, stagger: { amount: 0.5, from: 'random' }, ease: 'back.out(2)', clearProps: 'transform,opacity' },
-    '-=1'
-  )
-
+  // ScrollTrigger 触发后短暂停顿，光标从图标下方弧线锁定
   const targetApp = phoneWrapRef.value!.querySelector('.phone__app--target') as HTMLElement | null
   if (targetApp && cursorRef.value && phoneWrapRef.value) {
     const phoneRect = phoneWrapRef.value.getBoundingClientRect()
@@ -168,20 +163,15 @@ onMounted(() => {
     const offsetX = targetRect.left - phoneRect.left + targetRect.width / 2
     const offsetY = targetRect.top - phoneRect.top + targetRect.height / 2 + 16
 
-    // icons 全部出现后，再等 0.4s，光标从下方弧线锁定
     tl.set(cursorRef.value!, { x: offsetX + 30, y: offsetY + 80, opacity: 0, scale: 1 })
-    tl.to(cursorRef.value!, { x: offsetX, y: offsetY, opacity: 1, duration: 0.65, ease: 'power3.out' }, '+=0.4')
+    tl.to(cursorRef.value!, { x: offsetX, y: offsetY, opacity: 1, duration: 0.65, ease: 'power3.out' }, '+=0.3')
 
     // 点击
     tl.to(cursorRef.value!, { scale: 0.85, duration: 0.08, yoyo: true, repeat: 1 })
     tl.to(targetApp, { scale: 0.85, duration: 0.08, yoyo: true, repeat: 1 }, '<')
 
-    // 点击后立即触发轮播
     tl.call(startCarousel)
   }
-
-  tl.from(hintRef.value!, { opacity: 0, y: 30, duration: 0.8, ease: 'power2.out' }, '-=0.2')
-  tl.from(suitcaseRef.value!, { y: 150, rotation: -20, opacity: 0, duration: 1, ease: 'back.out(1.7)' }, '-=0.5')
 })
 
 onUnmounted(() => {
@@ -308,8 +298,6 @@ onUnmounted(() => {
 /* ── phone ───────────────────────────────────────────────────────────────── */
 .phone-wrap {
   position: relative;
-  transform-style: preserve-3d;
-  perspective: 1000px;
 }
 .phone {
   position: relative;

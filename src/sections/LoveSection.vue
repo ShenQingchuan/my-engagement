@@ -126,11 +126,9 @@ onUnmounted(() => {
 <style scoped>
 .love-section {
   position: relative;
-  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 .love-section__inner {
   position: relative;
