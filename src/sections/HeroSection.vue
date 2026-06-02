@@ -79,17 +79,6 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
 }
-.hero-section::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 220px;
-  background: linear-gradient(to bottom, transparent, #a8d5ba);
-  z-index: 4;
-  pointer-events: none;
-}
 .hero-bg {
   position: absolute;
   inset: -15% 0;          /* 预留溢出空间，滚出去不露白 */
